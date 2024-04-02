@@ -1,7 +1,7 @@
+Single-cell Analysis of Host-Microbiome Interactions
+================
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# Single-cell Analysis of Host-Microbiome Interactions
 
 <!-- badges: start -->
 
@@ -9,8 +9,7 @@
 
 ## Installation
 
-You can install the development version of rsahmi from
-[GitHub](https://github.com/) with:
+Here, we use pak to install package, you can also use `remotes`
 
 ``` r
 if (!requireNamespace("pak")) {
@@ -21,8 +20,43 @@ if (!requireNamespace("pak")) {
     )
   )
 }
+```
+
+`rsami` depends on [polars](https://rpolars.github.io/index.html)
+
+``` r
+pak::repo_add("https://rpolars.r-universe.dev")
+pak::pkg_install("polars")
+```
+
+You can also install the development version of `polars` from
+[Github](https://github.com/pola-rs/r-polars)
+
+In this way, you must install `cargo` to compile `polars`
+
+If you have `root` rights, you can do:
+
+    sudo apt purge cargo
+
+Otherwise, you can install `cargo` in your home directory:
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+Then install the `polars` package:
+
+``` r
+pak::pkg_install("pola-rs/r-polars")
+```
+
+You can install the development version of `rsahmi` from
+[GitHub](https://github.com/Yunuuuu/rsahmi):
+
+``` r
 pak::pkg_install("Yunuuuu/rsahmi")
 ```
+
+You must also install [seqkit](https://bioinf.shenwei.me/seqkit/) and
+[kraken2](https://github.com/DerrickWood/kraken2/wiki/Manual).
 
 ## Workflow
 

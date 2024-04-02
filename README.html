@@ -601,15 +601,15 @@ body {
 
 <body>
 
+<h1 id="single-cell-analysis-of-host-microbiome-interactions">Single-cell Analysis of Host-Microbiome Interactions</h1>
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<h1 id="single-cell-analysis-of-host-microbiome-interactions">Single-cell Analysis of Host-Microbiome Interactions</h1>
 <!-- badges: start -->
 
 <!-- badges: end -->
 
 <h2 id="installation">Installation</h2>
-<p>You can install the development version of rsahmi from <a href="https://github.com/">GitHub</a> with:</p>
+<p>Here, we use pak to install package, you can also use <code>remotes</code></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="cf">if</span> (<span class="op">!</span><span class="kw">requireNamespace</span>(<span class="st">&quot;pak&quot;</span>)) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a>  <span class="kw">install.packages</span>(<span class="st">&quot;pak&quot;</span>,</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a>    <span class="dt">repos =</span> <span class="kw">sprintf</span>(</span>
@@ -617,38 +617,53 @@ body {
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a>      .Platform<span class="op">$</span>pkgType, <span class="kw">R.Version</span>()<span class="op">$</span>os, <span class="kw">R.Version</span>()<span class="op">$</span>arch</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>    )</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  )</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>}</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a>pak<span class="op">::</span><span class="kw">pkg_install</span>(<span class="st">&quot;Yunuuuu/rsahmi&quot;</span>)</span></code></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>}</span></code></pre></div>
+<p><code>rsami</code> depends on <a href="https://rpolars.github.io/index.html">polars</a></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>pak<span class="op">::</span><span class="kw">repo_add</span>(<span class="st">&quot;https://rpolars.r-universe.dev&quot;</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>pak<span class="op">::</span><span class="kw">pkg_install</span>(<span class="st">&quot;polars&quot;</span>)</span></code></pre></div>
+<p>You can also install the development version of <code>polars</code> from <a href="https://github.com/pola-rs/r-polars">Github</a></p>
+<p>In this way, you must install <code>cargo</code> to compile <code>polars</code></p>
+<p>If you have <code>root</code> rights, you can do:</p>
+<pre><code>sudo apt purge cargo
+</code></pre>
+<p>Otherwise, you can install <code>cargo</code> in your home directory:</p>
+<pre><code>curl --proto &#39;=https&#39; --tlsv1.2 -sSf https://sh.rustup.rs | sh
+</code></pre>
+<p>Then install the <code>polars</code> package:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>pak<span class="op">::</span><span class="kw">pkg_install</span>(<span class="st">&quot;pola-rs/r-polars&quot;</span>)</span></code></pre></div>
+<p>You can install the development version of <code>rsahmi</code> from <a href="https://github.com/Yunuuuu/rsahmi">GitHub</a>:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>pak<span class="op">::</span><span class="kw">pkg_install</span>(<span class="st">&quot;Yunuuuu/rsahmi&quot;</span>)</span></code></pre></div>
+<p>You must also install <a href="https://bioinf.shenwei.me/seqkit/">seqkit</a> and <a href="https://github.com/DerrickWood/kraken2/wiki/Manual">kraken2</a>.</p>
 <h2 id="workflow">Workflow</h2>
 <p>Prepare output directory and input data</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>odir &lt;-<span class="st"> &quot;rsahmi&quot;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>fq1 &lt;-<span class="st"> </span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>fq2 &lt;-<span class="st"> </span><span class="co"># can be `NULL`</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a>kraken_db &lt;-<span class="st"> </span><span class="co"># specify the kraken database</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>odir &lt;-<span class="st"> &quot;rsahmi&quot;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>fq1 &lt;-<span class="st"> </span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>fq2 &lt;-<span class="st"> </span><span class="co"># can be `NULL`</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>kraken_db &lt;-<span class="st"> </span><span class="co"># specify the kraken database</span></span></code></pre></div>
 <h3 id="taxonomic-sequence-classifier">taxonomic sequence classifier</h3>
 <p>We must run with <code>--use-names</code>, and <code>--report-minimizer-data</code>, <code>classified_out</code> is not necessary in <code>rsahmi</code> package, but should be specified if you want to use official <code>SAHMI</code> script.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>biosys<span class="op">::</span><span class="kw">kraken2</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="dt">fq1 =</span> fq1, </span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  <span class="dt">fq2 =</span> fq2,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  <span class="dt">classified_out =</span> <span class="st">&quot;classified.fq&quot;</span>,</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>  biosys<span class="op">::</span><span class="kw">arg</span>(<span class="st">&quot;--threads&quot;</span>, 30L, <span class="dt">format =</span> <span class="st">&quot;%d&quot;</span>),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>  biosys<span class="op">::</span><span class="kw">arg</span>(<span class="st">&quot;--db&quot;</span>, kraken_db),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>  <span class="st">&quot;--use-names&quot;</span>, <span class="st">&quot;--report-minimizer-data&quot;</span>,</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>  <span class="dt">odir =</span> odir</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>biosys<span class="op">::</span><span class="kw">kraken2</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>  <span class="dt">fq1 =</span> fq1, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>  <span class="dt">fq2 =</span> fq2,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a>  <span class="dt">classified_out =</span> <span class="st">&quot;classified.fq&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>  biosys<span class="op">::</span><span class="kw">arg</span>(<span class="st">&quot;--threads&quot;</span>, 30L, <span class="dt">format =</span> <span class="st">&quot;%d&quot;</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true"></a>  biosys<span class="op">::</span><span class="kw">arg</span>(<span class="st">&quot;--db&quot;</span>, kraken_db),</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true"></a>  <span class="st">&quot;--use-names&quot;</span>, <span class="st">&quot;--report-minimizer-data&quot;</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true"></a>  <span class="dt">odir =</span> odir</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true"></a>)</span></code></pre></div>
 <h3 id="extract-microbiome-kraken-output">Extract microbiome kraken output</h3>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>rsahmi<span class="op">::</span><span class="kw">extract_kraken_output</span>(</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a>  <span class="kw">file.path</span>(odir, <span class="st">&quot;kraken_output.txt&quot;</span>),</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a>  <span class="dt">taxids =</span> rsahmi<span class="op">::</span><span class="kw">extract_taxids</span>(<span class="kw">file.path</span>(odir, <span class="st">&quot;kraken_report.txt&quot;</span>)),</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>  <span class="dt">dir =</span> odir</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a>rsahmi<span class="op">::</span><span class="kw">extract_kraken_output</span>(</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a>  <span class="kw">file.path</span>(odir, <span class="st">&quot;kraken_output.txt&quot;</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a>  <span class="dt">taxids =</span> rsahmi<span class="op">::</span><span class="kw">extract_taxids</span>(<span class="kw">file.path</span>(odir, <span class="st">&quot;kraken_report.txt&quot;</span>)),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a>  <span class="dt">dir =</span> odir</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a>)</span></code></pre></div>
 <h3 id="extract-microbiome-kraken-reads">Extract microbiome kraken reads</h3>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a>rsahmi<span class="op">::</span><span class="kw">extract_kraken_reads</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a>  <span class="dt">kraken_out =</span> <span class="kw">file.path</span>(odir, <span class="st">&quot;kraken_microbiome_output.txt&quot;</span>),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a>  <span class="dt">reads =</span> <span class="kw">c</span>(fq1, fq2),</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a>  <span class="dt">odir =</span> odir,</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a>  <span class="dt">threads =</span> 10L</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>rsahmi<span class="op">::</span><span class="kw">extract_kraken_reads</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>  <span class="dt">kraken_out =</span> <span class="kw">file.path</span>(odir, <span class="st">&quot;kraken_microbiome_output.txt&quot;</span>),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true"></a>  <span class="dt">reads =</span> <span class="kw">c</span>(fq1, fq2),</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true"></a>  <span class="dt">odir =</span> odir,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true"></a>  <span class="dt">threads =</span> 10L</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true"></a>)</span></code></pre></div>
 
 </body>
 </html>

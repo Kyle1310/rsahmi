@@ -618,7 +618,7 @@ body {
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>    )</span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a>  )</span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>}</span></code></pre></div>
-<p><code>rsami</code> depends on <a href="https://rpolars.github.io/index.html">polars</a></p>
+<p><code>rsami</code> depends on <a href="https://rpolars.github.io/index.html">polars</a>, you can install it by:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a>pak<span class="op">::</span><span class="kw">repo_add</span>(<span class="st">&quot;https://rpolars.r-universe.dev&quot;</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>pak<span class="op">::</span><span class="kw">pkg_install</span>(<span class="st">&quot;polars&quot;</span>)</span></code></pre></div>
 <p>You can also install the development version of <code>polars</code> from <a href="https://github.com/pola-rs/r-polars">Github</a></p>
@@ -640,7 +640,7 @@ body {
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a>fq1 &lt;-<span class="st"> </span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>fq2 &lt;-<span class="st"> </span><span class="co"># can be `NULL`</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>kraken_db &lt;-<span class="st"> </span><span class="co"># specify the kraken database</span></span></code></pre></div>
-<h3 id="taxonomic-sequence-classifier">taxonomic sequence classifier</h3>
+<h3 id="taxonomic-sequence-classifier">Taxonomic sequence classifier</h3>
 <p>We must run with <code>--use-names</code>, and <code>--report-minimizer-data</code>, <code>classified_out</code> is not necessary in <code>rsahmi</code> package, but should be specified if you want to use official <code>SAHMI</code> script.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a>biosys<span class="op">::</span><span class="kw">kraken2</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a>  <span class="dt">fq1 =</span> fq1, </span>

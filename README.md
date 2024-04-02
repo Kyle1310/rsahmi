@@ -22,7 +22,8 @@ if (!requireNamespace("pak")) {
 }
 ```
 
-`rsami` depends on [polars](https://rpolars.github.io/index.html)
+`rsami` depends on [polars](https://rpolars.github.io/index.html), you
+can install it by:
 
 ``` r
 pak::repo_add("https://rpolars.r-universe.dev")
@@ -69,7 +70,7 @@ fq2 <- # can be `NULL`
 kraken_db <- # specify the kraken database
 ```
 
-### taxonomic sequence classifier
+### Taxonomic sequence classifier
 
 We must run with `--use-names`, and `--report-minimizer-data`,
 `classified_out` is not necessary in `rsahmi` package, but should be

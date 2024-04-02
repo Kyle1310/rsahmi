@@ -26,12 +26,13 @@ pak::pkg_install("Yunuuuu/rsahmi")
 
 ## Workflow
 
-Prepare output directory
+Prepare output directory and input data
 
 ``` r
 odir <- "rsahmi"
 fq1 <- 
 fq2 <- # can be `NULL`
+kraken_db <- # specify the kraken database
 ```
 
 ### taxonomic sequence classifier
@@ -46,7 +47,7 @@ biosys::kraken2(
   fq2 = fq2,
   classified_out = "classified.fq",
   biosys::arg("--threads", 30L, format = "%d"),
-  biosys::arg("--db", kraken_db), # specify the kraken database
+  biosys::arg("--db", kraken_db),
   "--use-names", "--report-minimizer-data",
   odir = odir
 )

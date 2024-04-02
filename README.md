@@ -85,7 +85,7 @@ biosys::kraken2(
   biosys::arg("--db", kraken_db),
   "--use-names", "--report-minimizer-data",
   odir = odir
-)
+)$run()
 ```
 
 ### Extract microbiome kraken output
